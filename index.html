@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Preferences Survey</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #e0e0e0;
+            --muted: #a0a0a0;
+            --accent: #4da3ff;
+            --border: #333;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, #1a237e, #4a148c);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .nav-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .nav-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+        h1 { margin: 0; font-size: 2.2rem; }
+        h2 {
+            color: #fff;
+            margin-top: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        p { color: var(--muted); margin: 0.5rem 0 0 0; font-size: 1rem; }
+        .badge {
+            display: inline-block;
+            background: #252525;
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-500 selection:text-white">
+
+    <header>
+        <h1>Body Preferences Survey</h1>
+        <p style="color: #e0e0e0; margin-top: 0.5rem;">See what people prefer — and how it relates to relationships, age, and region.</p>
+    </header>
+
+    <main>
+        <!-- Card linking to raw survey answers / interactive dashboard -->
+        <a href="survey_analytics_dashboard.html" class="nav-card">
+            <span class="badge"><i class="fa-solid fa-chart-pie mr-1"></i> Interactive</span>
+            <h2><i class="fa-solid fa-square-poll-vertical text-[var(--accent)]"></i> Explore the Answers</h2>
+            <p>See the survey results as easy-to-read charts. Filter by question, switch between bar and pie views, and look at the numbers yourself.</p>
+        </a>
+
+        <!-- Card linking to the statistical analysis report -->
+        <a href="finalanalysis.html" class="nav-card">
+            <span class="badge"><i class="fa-solid fa-file-lines mr-1"></i> Report</span>
+            <h2><i class="fa-solid fa-book-open text-[var(--accent)]"></i> Read the Findings</h2>
+            <p>A plain-English breakdown of what we found about body preferences, relationship status, age, and region.</p>
+        </a>
+    </main>
+
+</body>
+</html>
