@@ -74,6 +74,22 @@
             border: 1px solid var(--border);
             margin-bottom: 0.75rem;
         }
+        .replication-note {
+            background: #1a2a3a;
+            border: 1px solid #2a4a6a;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: #cce0ff;
+        }
+        .replication-note a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        .replication-note a:hover {
+            color: #7ab8ff;
+        }
     </style>
 </head>
 <body class="selection:bg-blue-500 selection:text-white">
@@ -84,6 +100,12 @@
     </header>
 
     <main>
+        <!-- Replication note -->
+        <div class="replication-note">
+            <i class="fa-solid fa-flask" style="margin-right: 0.5rem;"></i>
+            This is a <strong>replication study</strong> of Mehmetoglu, M. (2026). <em>Buttocks or Breasts? Identifying Latent Subgroups in Male Preferences for Female Bodily Features.</em> <a href="https://journals.sagepub.com/doi/10.1177/14747049261452897" target="_blank" rel="noopener">View the original study <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i></a>
+        </div>
+
         <!-- Card linking to raw survey answers / interactive dashboard -->
         <a href="survey_analytics_dashboard.html" class="nav-card">
             <span class="badge"><i class="fa-solid fa-chart-pie mr-1"></i> Interactive</span>
@@ -96,6 +118,13 @@
             <span class="badge"><i class="fa-solid fa-file-lines mr-1"></i> Report</span>
             <h2><i class="fa-solid fa-book-open text-[var(--accent)]"></i> Read the Findings</h2>
             <p>A plain-English breakdown of what we found about body preferences, relationship status, age, and region.</p>
+        </a>
+
+        <!-- Card linking to the original study -->
+        <a href="https://journals.sagepub.com/doi/10.1177/14747049261452897" target="_blank" rel="noopener" class="nav-card">
+            <span class="badge"><i class="fa-solid fa-book mr-1"></i> Original Study</span>
+            <h2><i class="fa-solid fa-file-lines text-[var(--accent)]"></i> Read the Original Paper</h2>
+            <p>Mehmetoglu, M. (2026). <em>Buttocks or Breasts? Identifying Latent Subgroups in Male Preferences for Female Bodily Features.</em></p>
         </a>
     </main>
 

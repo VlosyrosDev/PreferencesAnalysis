@@ -81,6 +81,19 @@
   .raw-note { color: var(--muted); font-style: italic; }
   ul { margin: 0.2rem 0; padding-left: 1.2rem; }
   li { margin-bottom: 0.2rem; }
+  .match { color: #7bd88f; font-weight: 600; }
+  .mismatch { color: #ff7b7b; font-weight: 600; }
+  .partial { color: #ffd166; font-weight: 600; }
+  .context-box {
+    background: #1a2a3a;
+    border: 1px solid #2a4a6a;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: #cce0ff;
+  }
+  .context-box a { color: var(--accent); text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -89,6 +102,14 @@
   <p>What the data says about relationship status, region, and age</p>
 </header>
 <main>
+
+<section id="context">
+  <div class="context-box">
+    <i class="fa-solid fa-flask" style="margin-right: 0.5rem;"></i>
+            This is a <strong>replication study</strong> of Mehmetoglu, M. (2026). <em>Buttocks or Breasts? Identifying Latent Subgroups in Male Preferences for Female Bodily Features.</em> <a href="https://journals.sagepub.com/doi/10.1177/14747049261452897" target="_blank" rel="noopener">View the original study <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i></a>
+
+  </div>
+</section>
 
 <section id="summary">
   <h2>Summary (Plain English)</h2>
@@ -361,6 +382,138 @@
     <li><strong>Model numbers:</strong> The percentage changes are not the same as probabilities. Large values can come from small groups or the model's starting point.</li>
     <li><strong>Many comparisons:</strong> Testing many subgroups increases the chance of finding random patterns.</li>
   </ul>
+</section>
+
+<section id="comparison">
+  <h2>7. How This Compares to the Original Study</h2>
+  <p>The original study (Mehmetoglu, 2026) surveyed <strong>395 Norwegian men</strong> (average age 22.8, mostly single). This replication uses a <strong>broader, multi-region sample</strong> of about 401 people. That difference matters: the original was one country and one gender; this study is more diverse. So we should expect some differences — and the similarities we do find are more meaningful.</p>
+
+  <h3>7.1 Class Distribution: Similar Shape, Different Proportions</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Group</th>
+          <th>Original Study (Norway, N=395)</th>
+          <th>This Study (approx. N=401)</th>
+          <th>Comparison</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Highly Body-Oriented</td>
+          <td>53%</td>
+          <td>~34%</td>
+          <td><span class="partial">Different</span> — the original had a much bigger "high interest" group</td>
+        </tr>
+        <tr>
+          <td>Moderately Body-Oriented</td>
+          <td>20%</td>
+          <td>~31%</td>
+          <td><span class="partial">Different</span> — more people landed in the middle here</td>
+        </tr>
+        <tr>
+          <td>Buttocks-Oriented</td>
+          <td>18%</td>
+          <td>~24%</td>
+          <td><span class="partial">Different</span> — a somewhat larger buttocks-focused group here</td>
+        </tr>
+        <tr>
+          <td>Body-Unoriented</td>
+          <td>9%</td>
+          <td>~10%</td>
+          <td><span class="match">Very similar</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>What this means:</strong> Both studies found the <strong>same four types of people</strong>. That is a strong result — it suggests the four-group pattern is real and not a fluke of one sample. But the exact split differs. The original Norwegian men were mostly "Highly Body-Oriented"; this broader sample is more spread out, with more people in the middle and buttocks-focused groups.</p>
+
+  <h3>7.2 What Predicts Belonging to Each Group</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Predictor</th>
+          <th>Original Study Finding</th>
+          <th>This Study Finding</th>
+          <th>Comparison</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Sexy</strong></td>
+          <td>Strongest predictor of all body-oriented groups (Highly +501%, Buttocks +349%, Moderately +189%)</td>
+          <td>Strongest predictor of all body-oriented groups (Highly +229%, Moderately +83%, Buttocks +20%)</td>
+          <td><span class="match">Replicated</span> — same pattern, same direction</td>
+        </tr>
+        <tr>
+          <td><strong>Material</strong></td>
+          <td>Increased odds of Buttocks (+86%) and Highly (+88%); not significant for Moderately</td>
+          <td>Increased odds of all three (Moderately +43%, Highly +40%, Buttocks +14%)</td>
+          <td><span class="match">Mostly replicated</span> — direction is the same; here it also touched the Moderate group</td>
+        </tr>
+        <tr>
+          <td><strong>Egalitarian</strong></td>
+          <td>Reduced odds of all three body-oriented groups (Highly −63%, Moderately −54%, Buttocks −52%)</td>
+          <td>Weak and mixed effects (Buttocks +2%, Moderately +6%, Highly −6%)</td>
+          <td><span class="mismatch">Not replicated</span> — this study did not find the same negative link</td>
+        </tr>
+        <tr>
+          <td><strong>Intellectual</strong></td>
+          <td>No association with any class</td>
+          <td>Positive link with Moderately Body-Oriented (+33%); no link with the others</td>
+          <td><span class="partial">Partly different</span> — this study found one small effect the original missed</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>What this means:</strong> The two strongest findings from the original study — that <strong>valuing sexiness</strong> and <strong>valuing material things</strong> push people toward body-oriented groups — <strong>held up well</strong>. The weaker findings did not. In particular, the original study's claim that <strong>egalitarian values</strong> make people less body-oriented was not supported here. That could be because the samples are so different (Norwegian men vs. a broader group) or because the effect was never very strong to begin with.</p>
+
+  <h3>7.3 Breasts vs. Buttocks: The Central Question</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Finding</th>
+          <th>Original Study</th>
+          <th>This Study</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Overall trait means</td>
+          <td>Buttocks (3.91) rated higher than breasts (3.37)</td>
+          <td>Buttocks rated higher in every relationship group except Singles (who lean breasts by +0.11)</td>
+        </tr>
+        <tr>
+          <td>A distinct Buttocks-Oriented class?</td>
+          <td>Yes — appeared in <em>every</em> model tested (1 to 6 classes)</td>
+          <td>Yes — appears in every relationship group (roughly 23–31% of each)</td>
+        </tr>
+        <tr>
+          <td>A distinct Breasts-Oriented class?</td>
+          <td>No — breasts always appeared <em>together</em> with high buttocks ratings</td>
+          <td>Partly yes — breast-leaning profiles appeared in the Asia and Age 31+ subgroups</td>
+        </tr>
+        <tr>
+          <td>Correlation between the two traits</td>
+          <td>r = .41 (moderate positive)</td>
+          <td>Not directly reported, but the same pattern is visible: people who rate one high tend to rate the other high too</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>What this means:</strong> The original study made a bold claim: that buttocks are the "primary" trait and breasts are "complementary" — because no group ever preferred breasts <em>without</em> also liking buttocks. This replication <strong>mostly supports that</strong>, but adds a wrinkle. Yes, buttocks-focused groups are stable and easy to find. But this broader sample also reveals <strong>breast-leaning profiles</strong> in specific places — especially older Europeans and young Asians. That suggests the original's "buttocks first" conclusion may be specific to young Norwegian men, not a universal rule.</p>
+
+  <h3>7.4 Bottom Line</h3>
+  <ul>
+    <li><strong>What replicated well:</strong> The four-class structure, the importance of "Sexy" as a predictor, the link between materialism and body orientation, the stability of a Buttocks-Oriented group, and the general tendency for buttocks to matter more than breasts.</li>
+    <li><strong>What did not replicate:</strong> The strong negative effect of egalitarianism, and the claim that <em>no</em> breast-oriented group exists.</li>
+    <li><strong>Why the differences?</strong> The original was 395 Norwegian men from a university; this study spans multiple regions and age groups.</li>
+    <li><strong>Overall:</strong> The core findings of the original study hold up. The four "types" of body preference are real and appear in both samples. The details — how big each group is, and which values push people into them — shift depending on the sample.</li>
+  </ul>
+  <p class="note">Note: This comparison is limited by differences in sample composition, size, and measurement. Direct numerical comparisons should be read with care.</p>
 </section>
 
 <section id="raw-data">
