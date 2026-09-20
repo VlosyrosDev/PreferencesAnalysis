@@ -75,9 +75,6 @@
                         <i class="fa-solid fa-square-poll-vertical text-xl sm:text-2xl"></i>
                     </div>
                 </div>
-                <span class="sm:hidden bg-indigo-900/60 border border-indigo-500/40 text-indigo-100 text-[11px] font-medium px-2.5 py-1 rounded-full">
-                    data.csv
-                </span>
             </div>
                </div>
     </header>
@@ -302,7 +299,7 @@
                     }
                 });
 
-                // Sort keys for consistent ordering
+                // Sort keys for consistent ordering (numerical for numeric-looking values)
                 const sortedKeys = Object.keys(counts).sort((a, b) => {
                     const numA = Number(a);
                     const numB = Number(b);
@@ -311,6 +308,12 @@
                 });
                 const sortedValues = sortedKeys.map(k => counts[k]);
                 const totalAnswered = rows.length - blankCount;
+
+                // Compute the top answer by COUNT (not by sort order)
+                let topKey = null;
+                if (sortedKeys.length > 0) {
+                    topKey = sortedKeys.reduce((best, k) => counts[k] > counts[best] ? k : best, sortedKeys[0]);
+                }
 
                 // Create Card element
                 const card = document.createElement('section');
@@ -344,7 +347,7 @@
                 const cardFooter = document.createElement('div');
                 cardFooter.className = "mt-4 pt-3 border-t border-[var(--border)] flex flex-wrap items-center justify-between text-xs text-[var(--muted)] gap-2";
                 
-                const topAnswer = sortedKeys.length > 0 ? `${sortedKeys[0]} (${counts[sortedKeys[0]]})` : 'None';
+                const topAnswer = topKey !== null ? `${topKey} (${counts[topKey]})` : 'None';
                 cardFooter.innerHTML = `
                     <span>Top Answer: <strong class="text-white font-medium">${topAnswer}</strong></span>
                     <span>Blanks: <strong class="text-white font-medium">${blankCount}</strong></span>
