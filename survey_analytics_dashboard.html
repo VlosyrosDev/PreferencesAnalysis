@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Survey Analytics Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Papa Parse CDN for robust CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #e0e0e0;
+            --muted: #a0a0a0;
+            --accent: #4da3ff;
+            --border: #333;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, #1a237e, #4a148c);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        h1 { margin: 0; font-size: 2rem; }
+        h2 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.3rem;
+            margin-top: 0;
+            color: #fff;
+        }
+        .highlight {
+            background: #333;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+        .note { color: var(--muted); font-size: 0.9rem; }
+    </style>
+</head>
+<body class="selection:bg-blue-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header>
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-start">
+                <div class="flex items-center space-x-3 text-left">
+                    <div class="bg-white/10 p-2.5 rounded-xl text-white">
+                        <i class="fa-solid fa-square-poll-vertical text-xl sm:text-2xl"></i>
+                    </div>
+                </div>
+                <span class="sm:hidden bg-indigo-900/60 border border-indigo-500/40 text-indigo-100 text-[11px] font-medium px-2.5 py-1 rounded-full">
+                    data.csv
+                </span>
+            </div>
+               </div>
+    </header>
+
+    <main class="space-y-6">
+
+        <!-- Error Notification Toast (Hidden by default) -->
+        <div id="errorToast" class="hidden bg-rose-950/40 border border-rose-800/60 text-rose-300 px-4 py-3 rounded-xl text-sm flex items-start space-x-3 shadow-sm">
+            <i class="fa-solid fa-triangle-exclamation mt-0.5 text-rose-400"></i>
+            <div>
+                <strong class="font-semibold">Unable to load data.csv: </strong>
+                <span id="errorMessage">Please ensure a valid 'data.csv' file exists in the same directory and you are running via a local web server (like Live Server or GitHub Pages).</span>
+            </div>
+        </div>
+
+        <!-- Metrics Overview Bar -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-[var(--card)] rounded-xl p-4 shadow-sm border border-[var(--border)] flex items-center space-x-3 sm:space-x-4">
+                <div class="bg-blue-950 text-blue-400 p-3 rounded-xl flex-shrink-0 border border-blue-900/50">
+                    <i class="fa-solid fa-users text-lg sm:text-xl"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-[var(--muted)] truncate">Total Responses</p>
+                    <h3 id="statTotalResponses" class="text-xl sm:text-2xl font-bold text-white m-0">0</h3>
+                </div>
+            </div>
+            <div class="bg-[var(--card)] rounded-xl p-4 shadow-sm border border-[var(--border)] flex items-center space-x-3 sm:space-x-4">
+                <div class="bg-purple-950 text-purple-400 p-3 rounded-xl flex-shrink-0 border border-purple-900/50">
+                    <i class="fa-solid fa-clipboard-question text-lg sm:text-xl"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-[var(--muted)] truncate">Questions</p>
+                    <h3 id="statTotalQuestions" class="text-xl sm:text-2xl font-bold text-white m-0">0</h3>
+                </div>
+            </div>
+            <div class="bg-[var(--card)] rounded-xl p-4 shadow-sm border border-[var(--border)] flex items-center space-x-3 sm:space-x-4">
+                <div class="bg-emerald-950 text-emerald-400 p-3 rounded-xl flex-shrink-0 border border-emerald-900/50">
+                    <i class="fa-solid fa-chart-pie text-lg sm:text-xl"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-[var(--muted)] truncate">Primary Gender</p>
+                    <h3 id="statPrimaryGender" class="text-xs sm:text-base font-bold text-white truncate m-0">-</h3>
+                </div>
+            </div>
+            <div class="bg-[var(--card)] rounded-xl p-4 shadow-sm border border-[var(--border)] flex items-center space-x-3 sm:space-x-4">
+                <div class="bg-amber-950 text-amber-400 p-3 rounded-xl flex-shrink-0 border border-amber-900/50">
+                    <i class="fa-solid fa-calendar-days text-lg sm:text-xl"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-[var(--muted)] truncate">Latest Submission</p>
+                    <h3 id="statLatestDate" class="text-xs sm:text-sm font-bold text-white truncate m-0">-</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls / Search Bar -->
+        <section class="p-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="relative w-full sm:w-96">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[var(--muted)]">
+                    <i class="fa-solid fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" oninput="filterQuestions()" placeholder="Search survey questions..." class="w-full pl-10 pr-4 py-2 bg-[#121212] border border-[var(--border)] rounded-lg text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] transition">
+            </div>
+            <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
+                <span class="text-xs font-medium text-[var(--muted)]">Global View:</span>
+                <div class="flex space-x-1.5">
+                    <button onclick="setGlobalChartType('bar')" id="btnBarMode" class="px-3.5 py-1.5 bg-[var(--accent)] text-slate-950 font-semibold text-xs rounded-lg shadow-sm transition active:scale-95 cursor-pointer">Bars</button>
+                    <button onclick="setGlobalChartType('doughnut')" id="btnDoughnutMode" class="px-3.5 py-1.5 bg-[#2a2a2a] hover:bg-[#333] text-[var(--text)] text-xs font-medium rounded-lg transition active:scale-95 cursor-pointer">Doughnut</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Container -->
+        <div id="chartsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+            <!-- Loading skeleton placeholder -->
+            <section class="flex flex-col items-center justify-center min-h-[300px] col-span-full">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--accent)] mb-3"></div>
+                <p class="text-sm font-medium text-[var(--muted)]">Loading and parsing data.csv...</p>
+            </section>
+        </div>
+
+    </main>
+
+    <script>
+        let parsedData = {
+            headers: [],
+            rows: []
+        };
+        let chartInstances = {};
+        let globalChartType = 'bar'; // 'bar' or 'doughnut'
+
+        const colorPalette = [
+            '#4da3ff', '#a855f7', '#ec4899', '#3b82f6', '#10b981', 
+            '#f59e0b', '#ef4444', '#14b8a6', '#84cc16', '#6366f1'
+        ];
+
+        // Fetch data.csv on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('data.csv')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    parseAndRender(csvText);
+                })
+                .catch(err => {
+                    console.error("Error loading data.csv:", err);
+                    document.getElementById('errorToast').classList.remove('hidden');
+                    document.getElementById('chartsGrid').innerHTML = `
+                        <section class="text-center col-span-full">
+                            <div class="text-rose-400 text-4xl mb-3"><i class="fa-solid fa-file-circle-exclamation"></i></div>
+                            <h3 class="text-lg font-bold text-white mb-1">Could not load 'data.csv'</h3>
+                            <p class="text-sm text-[var(--muted)] max-w-md mx-auto">Make sure your <code class="bg-[#121212] px-1.5 py-0.5 rounded text-white font-mono text-xs border border-[var(--border)]">data.csv</code> file is located in the exact same folder as this HTML file. Note: Browsers restrict local file access via direct file:// URLs; please serve via a local web server (such as VS Code Live Server).</p>
+                        </section>
+                    `;
+                });
+        });
+
+        function parseAndRender(csvString) {
+            Papa.parse(csvString, {
+                header: true,
+                skipEmptyLines: true,
+                dynamicTyping: false,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        parsedData.headers = Object.keys(results.data[0]);
+                        parsedData.rows = results.data;
+                        renderDashboard();
+                    } else {
+                        document.getElementById('chartsGrid').innerHTML = `
+                            <section class="text-center col-span-full">
+                                <p class="text-sm text-[var(--muted)]">The file 'data.csv' appears to be empty.</p>
+                            </section>
+                        `;
+                    }
+                },
+                error: function(err) {
+                    console.error("CSV Parse error:", err);
+                    document.getElementById('errorToast').classList.remove('hidden');
+                }
+            });
+        }
+
+        function setGlobalChartType(type) {
+            globalChartType = type;
+            if (type === 'bar') {
+                document.getElementById('btnBarMode').className = "px-3.5 py-1.5 bg-[var(--accent)] text-slate-950 font-semibold text-xs rounded-lg shadow-sm transition active:scale-95 cursor-pointer";
+                document.getElementById('btnDoughnutMode').className = "px-3.5 py-1.5 bg-[#2a2a2a] hover:bg-[#333] text-[var(--text)] text-xs font-medium rounded-lg transition active:scale-95 cursor-pointer";
+            } else {
+                document.getElementById('btnDoughnutMode').className = "px-3.5 py-1.5 bg-[var(--accent)] text-slate-950 font-semibold text-xs rounded-lg shadow-sm transition active:scale-95 cursor-pointer";
+                document.getElementById('btnBarMode').className = "px-3.5 py-1.5 bg-[#2a2a2a] hover:bg-[#333] text-[var(--text)] text-xs font-medium rounded-lg transition active:scale-95 cursor-pointer";
+            }
+            renderDashboard();
+        }
+
+        function filterQuestions() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function renderDashboard() {
+            const rows = parsedData.rows;
+            const headers = parsedData.headers;
+
+            // Update top metrics
+            document.getElementById('statTotalResponses').innerText = rows.length;
+            
+            const questionHeaders = headers.filter(h => h.trim().toLowerCase() !== 'timestamp');
+            document.getElementById('statTotalQuestions').innerText = questionHeaders.length;
+
+            const genderKey = headers.find(h => h.toLowerCase().includes('gender'));
+            if (genderKey) {
+                const genderCounts = {};
+                rows.forEach(r => {
+                    const val = (r[genderKey] || 'Unspecified').trim();
+                    if(val) genderCounts[val] = (genderCounts[val] || 0) + 1;
+                });
+                const sortedGenders = Object.entries(genderCounts).sort((a,b) => b[1] - a[1]);
+                document.getElementById('statPrimaryGender').innerText = sortedGenders.length > 0 ? `${sortedGenders[0][0]} (${sortedGenders[0][1]})` : 'N/A';
+            } else {
+                document.getElementById('statPrimaryGender').innerText = 'N/A';
+            }
+
+            const timestampKey = headers.find(h => h.toLowerCase().includes('timestamp'));
+            if (timestampKey && rows.length > 0) {
+                const dates = rows.map(r => r[timestampKey]).filter(Boolean);
+                document.getElementById('statLatestDate').innerText = dates.length > 0 ? dates[dates.length - 1] : 'N/A';
+            } else {
+                document.getElementById('statLatestDate').innerText = 'N/A';
+            }
+
+            // Clear existing charts
+            Object.values(chartInstances).forEach(chart => chart.destroy());
+            chartInstances = {};
+
+            const container = document.getElementById('chartsGrid');
+            container.innerHTML = '';
+
+            questionHeaders.forEach((header, index) => {
+                const cleanHeader = header.trim();
+                
+                const counts = {};
+                let blankCount = 0;
+                rows.forEach(r => {
+                    let val = r[header];
+                    if (val === undefined || val === null || String(val).trim() === '') {
+                        blankCount++;
+                    } else {
+                        val = String(val).trim();
+                        counts[val] = (counts[val] || 0) + 1;
+                    }
+                });
+
+                // Sort keys for consistent ordering
+                const sortedKeys = Object.keys(counts).sort((a, b) => {
+                    const numA = Number(a);
+                    const numB = Number(b);
+                    if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+                    return counts[b] - counts[a];
+                });
+                const sortedValues = sortedKeys.map(k => counts[k]);
+                const totalAnswered = rows.length - blankCount;
+
+                // Create Card element
+                const card = document.createElement('section');
+                card.className = "question-card flex flex-col justify-between transition hover:border-[#444]";
+                card.setAttribute('data-title', cleanHeader);
+
+                const cardHeader = document.createElement('div');
+                cardHeader.className = "flex items-start justify-between gap-3 mb-4";
+                cardHeader.innerHTML = `
+                    <div class="space-y-1">
+                        <span class="inline-block px-2.5 py-0.5 bg-[#252525] text-[var(--accent)] text-[11px] font-semibold rounded-md border border-[var(--border)]">Question ${index + 1}</span>
+                        <h2 class="text-sm sm:text-base font-semibold text-white leading-snug border-none pb-0 m-0">${cleanHeader}</h2>
+                    </div>
+                    <span class="flex-shrink-0 bg-[#121212] text-[var(--muted)] text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap border border-[var(--border)]">
+                        ${totalAnswered} responses
+                    </span>
+                `;
+                card.appendChild(cardHeader);
+
+                // Canvas wrapper for responsiveness
+                const canvasWrapper = document.createElement('div');
+                canvasWrapper.className = "relative w-full h-64 sm:h-72 flex items-center justify-center my-2";
+                
+                const canvas = document.createElement('canvas');
+                const canvasId = `chart_${index}`;
+                canvas.id = canvasId;
+                canvasWrapper.appendChild(canvas);
+                card.appendChild(canvasWrapper);
+
+                // Footer with response breakdown summary
+                const cardFooter = document.createElement('div');
+                cardFooter.className = "mt-4 pt-3 border-t border-[var(--border)] flex flex-wrap items-center justify-between text-xs text-[var(--muted)] gap-2";
+                
+                const topAnswer = sortedKeys.length > 0 ? `${sortedKeys[0]} (${counts[sortedKeys[0]]})` : 'None';
+                cardFooter.innerHTML = `
+                    <span>Top Answer: <strong class="text-white font-medium">${topAnswer}</strong></span>
+                    <span>Blanks: <strong class="text-white font-medium">${blankCount}</strong></span>
+                `;
+                card.appendChild(cardFooter);
+
+                container.appendChild(card);
+
+                // Build Chart.js instance with dark theme configurations
+                const ctx = canvas.getContext('2d');
+                const backgroundColors = sortedKeys.map((_, i) => colorPalette[i % colorPalette.length]);
+
+                const chartConfig = {
+                    type: globalChartType,
+                    data: {
+                        labels: sortedKeys,
+                        datasets: [{
+                            data: sortedValues,
+                            backgroundColor: backgroundColors,
+                            borderWidth: globalChartType === 'doughnut' ? 2 : 0,
+                            borderColor: '#1e1e1e',
+                            borderRadius: globalChartType === 'bar' ? 6 : 0,
+                            barThickness: 'flex',
+                            maxBarThickness: 45
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: globalChartType === 'doughnut',
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    font: { family: 'system-ui, sans-serif', size: 11 },
+                                    color: '#a0a0a0'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(30, 30, 30, 0.95)',
+                                titleFont: { family: 'system-ui, sans-serif', size: 12, weight: '600' },
+                                bodyFont: { family: 'system-ui, sans-serif', size: 12 },
+                                titleColor: '#ffffff',
+                                bodyColor: '#e0e0e0',
+                                borderColor: '#333',
+                                borderWidth: 1,
+                                padding: 10,
+                                cornerRadius: 8
+                            }
+                        },
+                        scales: globalChartType === 'bar' ? {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0,
+                                    font: { family: 'system-ui, sans-serif', size: 11 },
+                                    color: '#a0a0a0'
+                                },
+                                grid: {
+                                    color: '#2a2a2a'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: { family: 'system-ui, sans-serif', size: 11 },
+                                    color: '#a0a0a0',
+                                    maxRotation: 45,
+                                    minRotation: 0
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        } : {}
+                    }
+                };
+
+                chartInstances[canvasId] = new Chart(ctx, chartConfig);
+            });
+        }
+    </script>
+</body>
+</html>

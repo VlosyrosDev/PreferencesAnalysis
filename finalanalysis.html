@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analysis: Body Trait Preferences</title>
+<style>
+  :root {
+    --bg: #121212;
+    --card: #1e1e1e;
+    --text: #e0e0e0;
+    --muted: #a0a0a0;
+    --accent: #4da3ff;
+    --border: #333;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: linear-gradient(135deg, #1a237e, #4a148c);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  h1 { margin: 0; font-size: 2rem; }
+  h2 {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 0.3rem;
+    margin-top: 0;
+    color: #fff;
+  }
+  h3 { color: #b0b0b0; margin-top: 1.5rem; }
+  h4 { color: #b0b0b0; margin-top: 1.2rem; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #2a2a2a; font-weight: 600; color: #fff; }
+  tr:nth-child(even) { background: #1a1a1a; }
+  .highlight {
+    background: #333;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+  }
+  .note { color: var(--muted); font-size: 0.9rem; }
+  .summary-list li { margin-bottom: 0.5rem; }
+  details { margin-top: 1rem; }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .table-wrap { overflow-x: auto; }
+  .raw-note { color: var(--muted); font-style: italic; }
+  ul { margin: 0.2rem 0; padding-left: 1.2rem; }
+  li { margin-bottom: 0.2rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Body Trait Preferences: Breasts vs. Buttocks</h1>
+  <p>What the data says about relationship status, region, and age</p>
+</header>
+<main>
+
+<section id="summary">
+  <h2>Summary (Plain English)</h2>
+  <p>This report looks at what people prefer more — breasts or buttocks — and how interested they are in bodies in general. Here are the main takeaways:</p>
+  <ul class="summary-list">
+    <li><strong>Singles</strong> slightly prefer breasts over buttocks. People who are <strong>in a relationship, married, or other</strong> slightly prefer buttocks.</li>
+    <li><strong>Married people</strong> are the most likely to be "Highly Body-Oriented" (very interested in bodies). People in a relationship are most likely to be "Moderately Body-Oriented".</li>
+    <li>The statistical model shows that the <strong>"Sexy"</strong> (valuing sexiness in a partner) factor hugely increases the chance of being Highly Body-Oriented (+229%). Being <strong>Aged 22–25</strong> increases the chance of belonging to body-oriented groups. Being in <strong>Asia</strong> decreases the chance of belonging to body-oriented groups. Being in the <strong>Americas</strong> increases the chance of being Buttocks-Oriented.</li>
+    <li><strong>Materialistic values</strong> are linked to higher interest in bodies overall. <strong>Intellectual values</strong> increase the chance of being Moderately Body-Oriented but slightly decrease the chance of being Highly Body-Oriented. <strong>Egalitarian values</strong> have little consistent effect.</li>
+    <li>In specific subgroups (excluding unknown regions/ages), <strong>Europeans aged 31+</strong> show the strongest breast preference. <strong>Americans aged 26–30</strong> show the strongest buttocks preference.</li>
+    <li>When we group people by their answers (profiles), <strong>Asia</strong> has a big group that likes both but leans toward breasts. <strong>Age 31+</strong> has two big groups: one moderate with a breast lean, and one high on both with a buttocks lean.</li>
+    <li><strong>Important:</strong> These are patterns in the data, not proof of cause and effect. Some groups are very small, so take those numbers with a grain of salt.</li>
+  </ul>
+</section>
+
+<section id="analysis">
+  <h2>Detailed Findings</h2>
+
+  <h3>1. Trait Preferences by Relationship Status</h3>
+  <p>People rated breasts and buttocks on a scale of 1 to 5 (higher = more preferred). The table shows the average ratings and the difference (breasts minus buttocks). A positive difference means a slight breast preference; a negative difference means a slight buttocks preference.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Relationship</th>
+          <th>Number of people</th>
+          <th>Avg. Breast Rating</th>
+          <th>Avg. Buttocks Rating</th>
+          <th>Difference (Breasts − Buttocks)</th>
+          <th>What it means</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Single</td><td>190</td><td>2.99</td><td>2.88</td><td>+0.11</td><td>Slight breast preference</td></tr>
+        <tr><td>In Relationship</td><td>112</td><td>2.93</td><td>3.09</td><td>−0.16</td><td>Slight buttocks preference</td></tr>
+        <tr><td>Married</td><td>73</td><td>3.11</td><td>3.22</td><td>−0.11</td><td>Slight buttocks preference</td></tr>
+        <tr><td>Other/Unspecified</td><td>26</td><td>2.96</td><td>3.08</td><td>−0.12</td><td>Slight buttocks preference</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Interpretation:</strong> Singles are the only group that prefers breasts on average, though the difference is tiny. Married people give the highest ratings to both traits overall, meaning they are generally more body-oriented.</p>
+
+  <h3>2. Class Distribution by Relationship Status</h3>
+  <p>People were grouped into four categories based on their answers: <em>Body-Unoriented</em> (low interest), <em>Buttocks-Oriented</em> (prefer buttocks), <em>Highly Body-Oriented</em> (strong interest), and <em>Moderately Body-Oriented</em> (medium interest). The table shows the percentage of each relationship group that falls into each category.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Relationship</th>
+          <th>Body-Unoriented</th>
+          <th>Buttocks-Oriented</th>
+          <th>Highly Body-Oriented</th>
+          <th>Moderately Body-Oriented</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Single</td><td>12.1%</td><td>24.7%</td><td>35.8%</td><td>27.4%</td></tr>
+        <tr><td>In Relationship</td><td>10.7%</td><td>24.1%</td><td>27.7%</td><td>37.5%</td></tr>
+        <tr><td>Married</td><td>6.8%</td><td>23.3%</td><td>41.1%</td><td>28.8%</td></tr>
+        <tr><td>Other/Unspecified</td><td>11.5%</td><td>30.8%</td><td>42.3%</td><td>15.4%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Interpretation:</strong> Married people are the most likely to be "Highly Body-Oriented" (41.1%) and the least likely to be "Body-Unoriented" (6.8%). People in a relationship are most likely to be "Moderately Body-Oriented" (37.5%). The "Other/Unspecified" group has a high "Highly Body-Oriented" share, but there were only 26 people, so this is less reliable.</p>
+
+  <h3>3. What Increases or Decreases the Chance of Being in Each Group?</h3>
+  <p>A statistical model estimated how much various factors change the chance of being in each body-oriented group compared to the "Body-Unoriented" baseline. The numbers are percentage changes. Positive means more likely, negative means less likely. For example, +50% means the chance is 50% higher.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Group</th>
+          <th>Factors that INCREASE the chance</th>
+          <th>Factors that DECREASE the chance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Buttocks-Oriented</strong></td>
+          <td>
+            <ul>
+              <li>Region Americas +71.81%</li>
+              <li>Age 22–25 +137.56%</li>
+              <li>Married +62.91%</li>
+              <li>Region Africa +15.60%</li>
+              <li>Sexy +20.08%</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Region Asia −61.97%</li>
+              <li>Region Oceania −21.35%</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Highly Body-Oriented</strong></td>
+          <td>
+            <ul>
+              <li>Sexy +229.42%</li>
+              <li>Age 22–25 +203.70%</li>
+              <li>Age 31+ +169.72%</li>
+              <li>Married +76.64%</li>
+              <li>Material +39.82%</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Region Oceania −76.80%</li>
+              <li>Region Asia −36.30%</li>
+              <li>In Relationship −32.50%</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Moderately Body-Oriented</strong></td>
+          <td>
+            <ul>
+              <li>Age 31+ +221.42%</li>
+              <li>Age 22–25 +158.36%</li>
+              <li>Sexy +83.27%</li>
+              <li>Material +42.71%</li>
+              <li>Region Africa +41.47%</li>
+              <li>Married +40.34%</li>
+              <li>Intellectual +33.15%</li>
+              <li>In Relationship +29.50%</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Region Oceania −83.91%</li>
+              <li>Region Asia −58.46%</li>
+              <li>Age 26–30 −7.86%</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.1 How Personal Values Affect Preferences</h3>
+  <p>The model also looked at four personal values. Here is what each means and how they change the chance of being in each body-oriented group (compared to being Body-Unoriented).</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Value</th>
+          <th>What it means</th>
+          <th>Buttocks-Oriented</th>
+          <th>Highly Body-Oriented</th>
+          <th>Moderately Body-Oriented</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Sexy</strong></td>
+          <td>How much a person values sexiness in a partner</td>
+          <td>+20.08%</td>
+          <td><strong>+229.42%</strong></td>
+          <td>+83.27%</td>
+        </tr>
+        <tr>
+          <td><strong>Material</strong></td>
+          <td>How much a person values material things</td>
+          <td>+13.60%</td>
+          <td>+39.82%</td>
+          <td>+42.71%</td>
+        </tr>
+        <tr>
+          <td><strong>Intellectual</strong></td>
+          <td>How much a person values intelligence in a partner</td>
+          <td>+1.53%</td>
+          <td>−8.39%</td>
+          <td>+33.15%</td>
+        </tr>
+        <tr>
+          <td><strong>Egalitarian</strong></td>
+          <td>How much a person values equality</td>
+          <td>+2.07%</td>
+          <td>−6.41%</td>
+          <td>+6.07%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Interpretation:</strong> Valuing <strong>sexiness</strong> has by far the strongest effect, especially for the Highly Body-Oriented group (+229%). <strong>Materialistic values</strong> also increase the chance of being in any body-oriented group. <strong>Intellectual values</strong> increase the chance of being Moderately Body-Oriented (+33%) but slightly decrease the chance of being Highly Body-Oriented (−8%). <strong>Egalitarian values</strong> have small and mixed effects.</p>
+  <p class="note">Note: These are associations, not proof of cause and effect. Large percentages can come from small groups.</p>
+
+  <h3>4. Subgroups with the Strongest Breast vs. Buttocks Preference</h3>
+  <p>This table shows subgroups (with at least 10 people) where breasts were rated higher than buttocks. A positive "Breast Dominance" means a breast preference; negative means a buttocks preference. Unknown/Unspecified regions and ages have been removed.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Region</th>
+          <th>Age Bracket</th>
+          <th>Number of people</th>
+          <th>Avg. Breasts</th>
+          <th>Avg. Buttocks</th>
+          <th>Breast Dominance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Europe</td><td>31+</td><td>32</td><td>3.00</td><td>2.50</td><td>+0.50</td></tr>
+        <tr><td>2</td><td>Asia</td><td>22–25</td><td>10</td><td>3.20</td><td>2.90</td><td>+0.30</td></tr>
+        <tr><td>3</td><td>Europe</td><td>22–25</td><td>18</td><td>3.06</td><td>2.83</td><td>+0.22</td></tr>
+        <tr><td>4</td><td>Africa</td><td>18–21</td><td>17</td><td>3.29</td><td>3.12</td><td>+0.18</td></tr>
+        <tr><td>5</td><td>Americas</td><td>18–21</td><td>10</td><td>2.40</td><td>2.30</td><td>+0.10</td></tr>
+        <tr><td>6</td><td>Africa</td><td>22–25</td><td>14</td><td>2.57</td><td>2.50</td><td>+0.07</td></tr>
+        <tr><td>7</td><td>Americas</td><td>31+</td><td>30</td><td>3.07</td><td>3.17</td><td>−0.10</td></tr>
+        <tr><td>8</td><td>Africa</td><td>31+</td><td>28</td><td>3.11</td><td>3.25</td><td>−0.14</td></tr>
+        <tr><td>9</td><td>Africa</td><td>26–30</td><td>24</td><td>2.83</td><td>3.04</td><td>−0.21</td></tr>
+        <tr><td>10</td><td>Europe</td><td>26–30</td><td>14</td><td>2.71</td><td>3.07</td><td>−0.36</td></tr>
+        <tr><td>11</td><td>Americas</td><td>26–30</td><td>16</td><td>2.81</td><td>3.50</td><td>−0.69</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Interpretation:</strong> Europe 31+ has the strongest breast preference (+0.50). Asia 22–25 and Europe 22–25 also lean breast. The strongest buttocks preference is in Americas 26–30 (−0.69), followed by Europe 26–30 (−0.36) and Africa 26–30 (−0.21).</p>
+
+  <h3>5. Subgroup Profiles (Latent Profile Analysis)</h3>
+  <p>This method groups people into "profiles" based on their ratings. It helps see natural clusters in the data.</p>
+
+  <h4>Asia Sub-sample (26 people)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Profile</th>
+          <th>Avg. Breasts</th>
+          <th>Avg. Buttocks</th>
+          <th>Number of people</th>
+          <th>Pattern</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>4.06</td><td>3.59</td><td>17</td><td>High on both, breasts slightly higher</td></tr>
+        <tr><td>2</td><td>1.83</td><td>1.50</td><td>6</td><td>Low on both</td></tr>
+        <tr><td>3</td><td>1.33</td><td>4.33</td><td>3</td><td>Buttocks-oriented, low breasts</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Interpretation:</strong> Most people in the Asia sub-sample (17 out of 26) are high on both traits with a slight breast lean. A small group (3 people) is strongly buttocks-oriented. Because the sample is small, these profiles are exploratory.</p>
+
+  <h4>Age 31+ Sub-sample (106 people)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Profile</th>
+          <th>Avg. Breasts</th>
+          <th>Avg. Buttocks</th>
+          <th>Number of people</th>
+          <th>Pattern</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>3.56</td><td>4.37</td><td>41</td><td>High on both, buttocks higher</td></tr>
+        <tr><td>2</td><td>1.71</td><td>1.00</td><td>14</td><td>Low on both, breasts higher</td></tr>
+        <tr><td>3</td><td>3.16</td><td>2.63</td><td>51</td><td>Moderate, breasts higher</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Interpretation:</strong> Among people aged 31+, the largest profile (51 people) is moderate with a breast lean. Another large profile (41 people) is high on both with a buttocks lean. This shows that older adults are not all the same — there are at least two distinct patterns.</p>
+
+  <h3>6. Caveats and Limitations</h3>
+  <ul>
+    <li><strong>Small groups:</strong> Some groups have very few people (e.g., Asia N=26, Other/Unspecified N=26, one profile N=3). Their numbers can be unstable.</li>
+    <li><strong>Not necessarily causal:</strong> These are patterns in the data, not proof that one thing causes another.</li>
+    <li><strong>Model numbers:</strong> The percentage changes are not the same as probabilities. Large values can come from small groups or the model's starting point.</li>
+    <li><strong>Many comparisons:</strong> Testing many subgroups increases the chance of finding random patterns.</li>
+  </ul>
+</section>
+
+<section id="raw-data">
+  <h2>Raw Data</h2>
+  <p class="raw-note">All non-empty country values were matched successfully.</p>
+  <details>
+    <summary>Click to expand/collapse raw output</summary>
+
+    <h3>Trait Preferences by Relationship Status</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Relationship</th><th>N</th><th>Mean Breasts</th><th>Mean Buttocks</th><th>Diff (Breasts − Buttocks)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Single</td><td>190</td><td>2.99</td><td>2.88</td><td>0.11</td></tr>
+          <tr><td>In Relationship</td><td>112</td><td>2.93</td><td>3.09</td><td>−0.16</td></tr>
+          <tr><td>Married</td><td>73</td><td>3.11</td><td>3.22</td><td>−0.11</td></tr>
+          <tr><td>Other/Unspecified</td><td>26</td><td>2.96</td><td>3.08</td><td>−0.12</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Class Distribution by Relationship Status (%)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Relationship</th><th>Body-Unoriented</th><th>Buttocks-Oriented</th><th>Highly Body-Oriented</th><th>Moderately Body-Oriented</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Single</td><td>12.1</td><td>24.7</td><td>35.8</td><td>27.4</td></tr>
+          <tr><td>In Relationship</td><td>10.7</td><td>24.1</td><td>27.7</td><td>37.5</td></tr>
+          <tr><td>Married</td><td>6.8</td><td>23.3</td><td>41.1</td><td>28.8</td></tr>
+          <tr><td>Other/Unspecified</td><td>11.5</td><td>30.8</td><td>42.3</td><td>15.4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Full Extended Model (Percentage Change in Odds %)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Predictor</th><th>Buttocks-Oriented</th><th>Highly Body-Oriented</th><th>Moderately Body-Oriented</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>(Intercept)</td><td>−49.15</td><td>−98.46</td><td>−98.70</td></tr>
+          <tr><td>Egalitarian</td><td>2.07</td><td>−6.41</td><td>6.07</td></tr>
+          <tr><td>Intellectual</td><td>1.53</td><td>−8.39</td><td>33.15</td></tr>
+          <tr><td>Material</td><td>13.60</td><td>39.82</td><td>42.71</td></tr>
+          <tr><td>Sexy</td><td>20.08</td><td>229.42</td><td>83.27</td></tr>
+          <tr><td>RegionAfrica</td><td>15.60</td><td>4.68</td><td>41.47</td></tr>
+          <tr><td>RegionAmericas</td><td>71.81</td><td>13.56</td><td>18.91</td></tr>
+          <tr><td>RegionAsia</td><td>−61.97</td><td>−36.30</td><td>−58.46</td></tr>
+          <tr><td>RegionOceania</td><td>−21.35</td><td>−76.80</td><td>−83.91</td></tr>
+          <tr><td>RegionUnknown/Unspecified</td><td>78.42</td><td>89.97</td><td>79.09</td></tr>
+          <tr><td>Age_Bracket22-25</td><td>137.56</td><td>203.70</td><td>158.36</td></tr>
+          <tr><td>Age_Bracket26-30</td><td>25.18</td><td>23.14</td><td>−7.86</td></tr>
+          <tr><td>Age_Bracket31+</td><td>45.18</td><td>169.72</td><td>221.42</td></tr>
+          <tr><td>Age_BracketUnspecified</td><td>−62.23</td><td>55.64</td><td>93.03</td></tr>
+          <tr><td>Relationship_CleanIn Relationship</td><td>1.97</td><td>−32.50</td><td>29.50</td></tr>
+          <tr><td>Relationship_CleanMarried</td><td>62.91</td><td>76.64</td><td>40.34</td></tr>
+          <tr><td>Relationship_CleanOther/Unspecified</td><td>123.78</td><td>−27.82</td><td>−66.77</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Subgroups with Highest Breast-to-Buttocks Dominance (Min N=10)</h3>
+    <p class="raw-note">Unknown/Unspecified regions and ages have been removed.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Region</th><th>Age Bracket</th><th>N</th><th>Mean Breasts</th><th>Mean Buttocks</th><th>Breast Dominance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Europe</td><td>31+</td><td>32</td><td>3.00</td><td>2.50</td><td>0.50</td></tr>
+          <tr><td>Asia</td><td>22-25</td><td>10</td><td>3.20</td><td>2.90</td><td>0.30</td></tr>
+          <tr><td>Europe</td><td>22-25</td><td>18</td><td>3.06</td><td>2.83</td><td>0.22</td></tr>
+          <tr><td>Africa</td><td>18-21</td><td>17</td><td>3.29</td><td>3.12</td><td>0.18</td></tr>
+          <tr><td>Americas</td><td>18-21</td><td>10</td><td>2.40</td><td>2.30</td><td>0.10</td></tr>
+          <tr><td>Africa</td><td>22-25</td><td>14</td><td>2.57</td><td>2.50</td><td>0.07</td></tr>
+          <tr><td>Americas</td><td>31+</td><td>30</td><td>3.07</td><td>3.17</td><td>−0.10</td></tr>
+          <tr><td>Africa</td><td>31+</td><td>28</td><td>3.11</td><td>3.25</td><td>−0.14</td></tr>
+          <tr><td>Africa</td><td>26-30</td><td>24</td><td>2.83</td><td>3.04</td><td>−0.21</td></tr>
+          <tr><td>Europe</td><td>26-30</td><td>14</td><td>2.71</td><td>3.07</td><td>−0.36</td></tr>
+          <tr><td>Americas</td><td>26-30</td><td>16</td><td>2.81</td><td>3.50</td><td>−0.69</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Subgroup LPA (Asia Sub-sample, N = 26)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Class</th><th>Mean Breasts</th><th>Mean Buttocks</th><th>N</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>4.06</td><td>3.59</td><td>17</td></tr>
+          <tr><td>2</td><td>1.83</td><td>1.50</td><td>6</td></tr>
+          <tr><td>3</td><td>1.33</td><td>4.33</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Subgroup LPA (Age 31+ Sub-sample, N = 106)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Class</th><th>Mean Breasts</th><th>Mean Buttocks</th><th>N</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>3.56</td><td>4.37</td><td>41</td></tr>
+          <tr><td>2</td><td>1.71</td><td>1.00</td><td>14</td></tr>
+          <tr><td>3</td><td>3.16</td><td>2.63</td><td>51</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </details>
+</section>
+
+</main>
+</body>
+</html>
