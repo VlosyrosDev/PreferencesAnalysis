@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Analysis: Body Trait Preferences</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root {
     --bg: #121212;
@@ -94,12 +95,38 @@
     color: #cce0ff;
   }
   .context-box a { color: var(--accent); text-decoration: underline; }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  .back-link:hover { background: rgba(255,255,255,0.14); }
+  .warn-box {
+    background: #2a1a1a;
+    border: 1px solid #6a3a3a;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #ffd0d0;
+  }
+  .warn-box strong { color: #ff9999; }
 </style>
 </head>
 <body>
 <header>
   <h1>Body Trait Preferences: Breasts vs. Buttocks</h1>
   <p>What the data says about relationship status, region, and age</p>
+  <a href="index.html" class="back-link" aria-label="Back to index"><i class="fa-solid fa-arrow-left"></i></a>
 </header>
 <main>
 
@@ -376,17 +403,36 @@
   <p><strong>Interpretation:</strong> Among people aged 31+, the largest profile (51 people) is moderate with a breast lean. Another large profile (41 people) is high on both with a buttocks lean. This shows that older adults are not all the same — there are at least two distinct patterns.</p>
 
   <h3>6. Caveats and Limitations</h3>
+  <p>Before taking any of the numbers above at face value, it is important to understand how this data was collected and what that means for interpretation.</p>
   <ul>
     <li><strong>Small groups:</strong> Some groups have very few people (e.g., Asia N=26, Other/Unspecified N=26, one profile N=3). Their numbers can be unstable.</li>
     <li><strong>Not necessarily causal:</strong> These are patterns in the data, not proof that one thing causes another.</li>
     <li><strong>Model numbers:</strong> The percentage changes are not the same as probabilities. Large values can come from small groups or the model's starting point.</li>
     <li><strong>Many comparisons:</strong> Testing many subgroups increases the chance of finding random patterns.</li>
   </ul>
+
+  <div class="warn-box">
+    <h4 style="margin-top: 0; color: #ff9999;"><i class="fa-solid fa-triangle-exclamation" style="margin-right: 0.4rem;"></i> How this survey was recruited — and why it matters</h4>
+    <p style="margin-top: 0.5rem;">This survey was conducted entirely online. Participants were recruited through:</p>
+    <ul>
+      <li><strong>Reddit</strong> (survey subreddits and r/MauriceMauritius)</li>
+      <li><strong>Facebook</strong> (various groups and posts)</li>
+      <li><strong>Survey exchange websites</strong> — specifically SurveySwap, PollPool, and SurveyCircle (these are platforms where people take each other's surveys to get responses in return)</li>
+      <li><strong>Word-of-mouth</strong> — friends sharing the link with their friends</li>
+    </ul>
+    <p style="margin-top: 0.75rem;"><strong>About half of all respondents came from Reddit.</strong> This is a significant source of potential bias:</p>
+    <ul>
+      <li>Reddit users tend to be younger, more male, more Western, and more tech-savvy than the general population.</li>
+      <li>People who fill out surveys for fun (or for SurveySwap credits) are not a random slice of humanity — they are a self-selected group who enjoy taking surveys.</li>
+      <li>Because roughly half the sample shares one recruitment source, any quirks of that community (attitudes, demographics, interests) will pull the results in a particular direction.</li>
+    </ul>
+    <p style="margin-bottom: 0;"><strong>Bottom line:</strong> The patterns described in this report are best read as "what this particular online sample reported," not as universal truths about all people. The original Norwegian study used a university campus sample, which has its own biases — so this replication is different, not necessarily better or worse.</p>
+  </div>
 </section>
 
 <section id="comparison">
   <h2>7. How This Compares to the Original Study</h2>
-  <p>The original study (Mehmetoglu, 2026) surveyed <strong>395 Norwegian men</strong> (average age 22.8, mostly single). This replication uses a <strong>broader, multi-region sample</strong> of about 401 people. That difference matters: the original was one country only; this study is more diverse. So we should expect some differences — and the similarities we do find are more meaningful.</p>
+  <p>The original study (Mehmetoglu, 2026) surveyed <strong>395 Norwegian men</strong> (average age 22.8, mostly single). This replication uses a <strong>broader, multi-region sample</strong> of about 401 people recruited mostly online through Reddit, Facebook, and survey-exchange sites. That difference matters: the original was one country only; this study is more diverse. So we should expect some differences — and the similarities we do find are more meaningful.</p>
 
   <h3>7.1 Class Distribution: Similar Shape, Different Proportions</h3>
   <div class="table-wrap">
@@ -468,7 +514,7 @@
       </tbody>
     </table>
   </div>
-  <p><strong>What this means:</strong> The two strongest findings from the original study — that <strong>valuing sexiness</strong> and <strong>valuing material things</strong> push people toward body-oriented groups — <strong>held up well</strong>. The weaker findings did not. In particular, the original study's claim that <strong>egalitarian values</strong> make people less body-oriented was not supported here. That could be because the samples are so different (Norwegian men vs. a broader group) or because the effect was never very strong to begin with.</p>
+  <p><strong>What this means:</strong> The two strongest findings from the original study — that <strong>valuing sexiness</strong> and <strong>valuing material things</strong> push people toward body-oriented groups — <strong>held up well</strong>. The weaker findings did not. In particular, the original study's claim that <strong>egalitarian values</strong> make people less body-oriented was not supported here. That could be because the samples are so different (Norwegian university men vs. a broader online group) or because the effect was never very strong to begin with.</p>
 
   <h3>7.3 Breasts vs. Buttocks: The Central Question</h3>
   <div class="table-wrap">
@@ -510,7 +556,7 @@
   <ul>
     <li><strong>What replicated well:</strong> The four-class structure, the importance of "Sexy" as a predictor, the link between materialism and body orientation, the stability of a Buttocks-Oriented group, and the general tendency for buttocks to matter more than breasts.</li>
     <li><strong>What did not replicate:</strong> The strong negative effect of egalitarianism, and the claim that <em>no</em> breast-oriented group exists.</li>
-    <li><strong>Why the differences?</strong> The original was 395 Norwegian men from a university; this study spans multiple regions and age groups.</li>
+    <li><strong>Why the differences?</strong> The original was 395 Norwegian men from a university; this study is a broader online sample recruited mostly via Reddit, Facebook, and survey-exchange sites — different people with different backgrounds.</li>
     <li><strong>Overall:</strong> The core findings of the original study hold up. The four "types" of body preference are real and appear in both samples. The details — how big each group is, and which values push people into them — shift depending on the sample.</li>
   </ul>
   <p class="note">Note: This comparison is limited by differences in sample composition, size, and measurement. Direct numerical comparisons should be read with care.</p>
