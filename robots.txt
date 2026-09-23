@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://vlosyrosdev.github.io/PreferencesAnalysis/sitemap.xml
